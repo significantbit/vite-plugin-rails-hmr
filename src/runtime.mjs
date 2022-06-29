@@ -1,20 +1,20 @@
-import { createCommentRegistry, removeComments, hasRenderedFile } from './sourcemap'
-import { useSourcemapMode } from './sourcemap'
-import { patchBody, patchWithSourcemap } from './patch'
+import { createCommentRegistry, removeComments, hasRenderedFile } from './sourcemap.mjs'
+import { useSourcemapMode } from './sourcemap.mjs'
+import { patchBody, patchWithSourcemap } from './patch.mjs'
 
 export const setup = () => {
   // Create registry of <!-- BEGIN file/path.html.erb --> comments
   createCommentRegistry()
 
   // Remove all comments to reduce noise in the console
-  removeComments()
+  //removeComments()
 }
 
 /**
  * Patch DOM tree on incoming HMR event
  * @param {any} payload 
  */
-export const patchDOM = ({ path }) => {
+export const patchDOM = ({ path }, replyHMR) => {
   const sourcemapMode = useSourcemapMode()
   if (sourcemapMode && !hasRenderedFile(path))
     return
@@ -34,6 +34,6 @@ export const patchDOM = ({ path }) => {
     .then(vnode => {
       // Tell server that DOM has been patched
       if (vnode)
-        import.meta.hot.send('rails-hmr:patched')
+        replyHMR('rails-hmr:patched')
     })
 }

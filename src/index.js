@@ -53,6 +53,12 @@ module.exports = (options) => ({
               timestamp: Math.floor(Date.now() / 1000),
               path: path,
               acceptedPath: path,
+            },
+            {
+              type: 'css-update',
+              timestamp: Math.floor(Date.now() / 1000),
+              path: path,
+              acceptedPath: path,
             }
           ]
         })
@@ -80,7 +86,7 @@ module.exports = (options) => ({
 
         if (import.meta.hot) {
           setup()
-          import.meta.hot.on('rails-hmr:update', patchDOM)
+          import.meta.hot.on('rails-hmr:update', (context) => patchDOM(context, import.meta.hot.send))
         }
       `
 

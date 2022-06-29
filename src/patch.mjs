@@ -9,8 +9,8 @@ import {
   toVNode,
 } from 'snabbdom'
 import { isEqual } from 'lodash-es'
-import { createCommentRegistry, restoreComments, removeComments } from './sourcemap'
-import { createIsolatedVnode } from './vnode'
+import { createCommentRegistry, restoreComments, removeComments } from './sourcemap.mjs'
+import { createIsolatedVnode } from './vnode.mjs'
 
 // Setup virtual representation of DOM tree
 const patch = init([
@@ -60,7 +60,7 @@ export const patchBody = (newDocument, path) => {
   // Update comment registry
   createCommentRegistry()
   // Remove comments again
-  removeComments()
+  //removeComments()
 
   // If anything was patched
   return vnodes.length > 0
